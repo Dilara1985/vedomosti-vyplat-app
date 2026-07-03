@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ведомости выплат</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+  </head>
+  <body>
+    <main class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">В</div>
+          <div>
+            <h1>Ведомости выплат</h1>
+            <p>Регионы, каналы, операторы и управленческая иерархия</p>
+          </div>
+        </div>
+
+        <label class="dropzone" for="fileInput">
+          <input id="fileInput" type="file" accept=".xlsx,.xls,.csv" multiple />
+          <span class="drop-title">Приложить Excel-файлы</span>
+          <span class="drop-text">Факты, планы, иерархия или общий файл</span>
+        </label>
+
+        <section class="panel">
+          <h2>Фильтры</h2>
+          <label>
+            Период
+            <select id="periodFilter"></select>
+          </label>
+          <label>
+            Регион
+            <select id="regionFilter"></select>
+          </label>
+          <label>
+            Канал продаж
+            <select id="channelFilter"></select>
+          </label>
+        </section>
+
+        <section class="panel">
+          <h2>Правила выплат</h2>
+          <div id="ratesEditor" class="rates-editor"></div>
+        </section>
+
+        <button id="exportBtn" class="primary" disabled>Скачать ведомость</button>
+      </aside>
+
+      <section class="workspace">
+        <div class="toolbar">
+          <div>
+            <p class="eyebrow">Автоматический расчет</p>
+            <h2>Факты работников → группы → выплаты</h2>
+          </div>
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="summary">Итоги</button>
+            <button class="tab" data-tab="employees">Работники</button>
+            <button class="tab" data-tab="leaders">Руководители</button>
+            <button class="tab" data-tab="statement">Ведомость</button>
+            <button class="tab" data-tab="issues">Проверка</button>
+          </div>
+        </div>
+
+        <section id="emptyState" class="empty-state">
+          <h2>Загрузите Excel-файл с фактами и планами</h2>
+          <p>Приложение подтянет работников, главных специалистов, региональных менеджеров, супервайзеров и руководителей СП, затем посчитает групповое исполнение и выплаты.</p>
+        </section>
+
+        <section id="content" class="content hidden">
+          <div id="summaryTab" class="tab-panel active">
+            <div class="metrics">
+              <div><span>План</span><strong id="metricPlan">0</strong></div>
+              <div><span>Факт</span><strong id="metricFact">0</strong></div>
+              <div><span>Исполнение</span><strong id="metricAch">0%</strong></div>
+              <div><span>Выплаты</span><strong id="metricPayout">0</strong></div>
+            </div>
+            <div class="split">
+              <div class="table-wrap">
+                <h3>По регионам</h3>
+                <table id="regionTable"></table>
+              </div>
+              <div class="table-wrap">
+                <h3>По каналам</h3>
+                <table id="channelTable"></table>
+              </div>
+            </div>
+          </div>
+
+          <div id="employeesTab" class="tab-panel">
+            <div class="table-wrap full"><table id="employeeTable"></table></div>
+          </div>
+
+          <div id="leadersTab" class="tab-panel">
+            <div class="table-wrap full"><table id="leaderTable"></table></div>
+          </div>
+
+          <div id="statementTab" class="tab-panel">
+            <div class="table-wrap full"><table id="statementTable"></table></div>
+          </div>
+
+          <div id="issuesTab" class="tab-panel">
+            <div id="issuesList" class="issues"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
